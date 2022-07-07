@@ -81,7 +81,6 @@ public class PSMAnnotationTypes {
 			types.add( type );
 		}
 
-
 		return types;
 	}
 	

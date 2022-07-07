@@ -30,9 +30,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
-public class MetaMorphPeptide {
+public class ByonicPeptide {
 
-	public MetaMorphPeptide( MetaMorphPeptideBuilder builder ) {
+	public ByonicPeptide(ByonicPeptideBuilder builder ) {
 		
 		this.sequence = builder.getSequence();
 		
@@ -62,7 +62,7 @@ public class MetaMorphPeptide {
 				
 				if( this.getModifications().get( i ) != null ) {
 					for( BigDecimal mod : this.getModifications().get( i ) ) {
-						modsAtPosition.add( mod.setScale( 2, BigDecimal.ROUND_HALF_UP ).toString() );
+						modsAtPosition.add( mod.setScale( 5, BigDecimal.ROUND_HALF_UP ).toString() );
 					}
 					
 					if( modsAtPosition.size() > 0 ) {
@@ -85,7 +85,7 @@ public class MetaMorphPeptide {
 		if(this.getModifications() != null && this.getModifications().containsKey(0)) {
 			List<String> modsAtPosition = new ArrayList<String>();
 			for( BigDecimal mod : this.getModifications().get( 0 ) ) {
-				modsAtPosition.add( mod.setScale( 2, BigDecimal.ROUND_HALF_UP ).toString() );
+				modsAtPosition.add( mod.setScale( 5, BigDecimal.ROUND_HALF_UP ).toString() );
 			}
 
 			// sort these strings on double values
@@ -104,7 +104,7 @@ public class MetaMorphPeptide {
 		if(this.getModifications() != null && this.getModifications().containsKey(this.getSequence().length() + 1)) {
 			List<String> modsAtPosition = new ArrayList<String>();
 			for( BigDecimal mod : this.getModifications().get( this.getSequence().length() + 1 ) ) {
-				modsAtPosition.add( mod.setScale( 2, BigDecimal.ROUND_HALF_UP ).toString() );
+				modsAtPosition.add( mod.setScale( 5, BigDecimal.ROUND_HALF_UP ).toString() );
 			}
 
 			// sort these strings on double values

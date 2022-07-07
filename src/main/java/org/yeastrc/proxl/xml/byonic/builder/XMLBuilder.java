@@ -31,14 +31,9 @@ import org.yeastrc.proxl.xml.byonic.annotations.PSMAnnotationTypes;
 import org.yeastrc.proxl.xml.byonic.annotations.PSMDefaultVisibleAnnotationTypes;
 import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
 import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinkerEnd;
-import org.yeastrc.proxl.xml.byonic.objects.AnalysisParameters;
-import org.yeastrc.proxl.xml.byonic.objects.MetaMorphPSM;
-import org.yeastrc.proxl.xml.byonic.objects.MetaMorphPeptide;
-import org.yeastrc.proxl.xml.byonic.objects.MetaMorphReportedPeptide;
-import org.yeastrc.proxl.xml.byonic.reader.MetaMorphResultsParser;
-import org.yeastrc.proxl.xml.byonic.reader.StaticModProcessor;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicPeptide;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicReportedPeptide;
 import org.yeastrc.proxl.xml.byonic.utils.ModUtils;
-import org.yeastrc.proxl.xml.byonic.utils.PepXMLUtils;
 import org.yeastrc.proxl_import.api.xml_dto.*;
 import org.yeastrc.proxl_import.api.xml_dto.SearchProgram.PsmAnnotationTypes;
 import org.yeastrc.proxl_import.create_import_file_from_java_objects.main.CreateImportFileFromJavaObjectsMain;
@@ -159,7 +154,7 @@ public class XMLBuilder {
 		
 		
 		// parse the data from the pepXML into a java data structure suitable for writing as ProXL XML
-		Map<MetaMorphReportedPeptide, Collection<MetaMorphPSM>> resultsByReportedPeptide = 
+		Map<ByonicReportedPeptide, Collection<MetaMorphPSM>> resultsByReportedPeptide =
 				MetaMorphResultsParser.getInstance().getResultsFromAnalysis( analysis );
 		
 		// remove the static mods and capture those here.
@@ -206,7 +201,7 @@ public class XMLBuilder {
 		Collection<String> peptides = new HashSet<>();
 		
 		// iterate over each distinct reported peptide
-		for( MetaMorphReportedPeptide rp : resultsByReportedPeptide.keySet() ) {
+		for( ByonicReportedPeptide rp : resultsByReportedPeptide.keySet() ) {
 			
 			peptides.add( rp.getPeptide1().getSequence() );
 			if( rp.getPeptide2() != null ) peptides.add( rp.getPeptide2().getSequence() );
@@ -229,7 +224,7 @@ public class XMLBuilder {
 			// add in the 1st parsed peptide
 			{
 				
-				MetaMorphPeptide metaMorphPeptide = rp.getPeptide1();
+				ByonicPeptide metaMorphPeptide = rp.getPeptide1();
 				
 				Peptide xmlPeptide = new Peptide();
 				xmlPeptides.getPeptide().add( xmlPeptide );
@@ -291,7 +286,7 @@ public class XMLBuilder {
 			// add in the 2nd parsed peptide, if it exists
 			if( rp.getPeptide2() != null ) {
 				
-				MetaMorphPeptide metaMorphPeptide = rp.getPeptide2();
+				ByonicPeptide metaMorphPeptide = rp.getPeptide2();
 				
 				Peptide xmlPeptide = new Peptide();
 				xmlPeptides.getPeptide().add( xmlPeptide );

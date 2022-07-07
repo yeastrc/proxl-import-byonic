@@ -20,9 +20,9 @@ package org.yeastrc.proxl.xml.byonic.objects;
 
 import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
 
-public class MetaMorphReportedPeptide {
+public class ByonicReportedPeptide {
 	
-	public MetaMorphReportedPeptide( MetaMorphReportedPeptideBuilder builder ) {
+	public ByonicReportedPeptide(ByonicReportedPeptideBuilder builder ) {
 		
 		this.type = builder.getType();
 		this.position1 = builder.getPosition1();
@@ -38,10 +38,10 @@ public class MetaMorphReportedPeptide {
 	
 	public boolean equals( Object o ) {
 
-		if( !( o instanceof MetaMorphReportedPeptide) )
+		if( !( o instanceof ByonicReportedPeptide) )
 			return false;
 		
-		return this.toString().equals( ((MetaMorphReportedPeptide)o).toString() );
+		return this.toString().equals( ((ByonicReportedPeptide)o).toString() );
 	}
 
 	public String toString() {
@@ -66,12 +66,12 @@ public class MetaMorphReportedPeptide {
 	}
 
 
-	public MetaMorphPeptide getPeptide1() {
+	public ByonicPeptide getPeptide1() {
 		return peptide1;
 	}
 
 
-	public MetaMorphPeptide getPeptide2() {
+	public ByonicPeptide getPeptide2() {
 		return peptide2;
 	}
 
@@ -87,8 +87,8 @@ public class MetaMorphReportedPeptide {
 
 	
 	private final int type;
-	private final MetaMorphPeptide peptide1;
-	private final MetaMorphPeptide peptide2;
+	private final ByonicPeptide peptide1;
+	private final ByonicPeptide peptide2;
 	private final int position1;
 	private final int position2;
 	

@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
-import org.yeastrc.proxl.xml.byonic.objects.MetaMorphPeptide;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicPeptide;
 
 public class ModUtils {
 
@@ -35,7 +35,7 @@ public class ModUtils {
 	}
 	
 	
-	public static String getResidueAtPosition( MetaMorphPeptide peptide, int position ) {
+	public static String getResidueAtPosition(ByonicPeptide peptide, int position ) {
 
 		if(position == 0) { return "n"; }		// n-terminus
 		if(position == peptide.getSequence().length() + 1) { return "c"; } // c-terminus
@@ -43,7 +43,7 @@ public class ModUtils {
 		return peptide.getSequence().substring( position - 1, position );
 	}
 	
-	public static boolean peptideHasNonStaticMods( MetaMorphPeptide peptide, Map<String,BigDecimal> staticMods ) {
+	public static boolean peptideHasNonStaticMods(ByonicPeptide peptide, Map<String,BigDecimal> staticMods ) {
 		
 		if( peptide.getModifications() == null || peptide.getModifications().keySet().size() < 1 )
 			return false;

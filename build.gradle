@@ -27,7 +27,7 @@ dependencies {
     compile 'info.picocli:picocli:4.0.0-alpha-1'
     compile 'com.google.guava:guava:16.0.1'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.yeastrc:proxl-import-api:1.10.0'
+    compile 'org.yeastrc:proxl-import-api:1.9.1'
     compile 'com.moandjiezana.toml:toml4j:0.7.2'
 
     // JAXB dependencies (Required for Java 11+)

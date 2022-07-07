@@ -18,7 +18,7 @@
 
 package org.yeastrc.proxl.xml.byonic.objects;
 
-public class MetaMorphReportedPeptideBuilder {
+public class ByonicReportedPeptideBuilder {
 	
 	/**
 	 * @return the type
@@ -35,25 +35,25 @@ public class MetaMorphReportedPeptideBuilder {
 	/**
 	 * @return the peptide1
 	 */
-	public MetaMorphPeptide getPeptide1() {
+	public ByonicPeptide getPeptide1() {
 		return peptide1;
 	}
 	/**
 	 * @param peptide1 the peptide1 to set
 	 */
-	public void setPeptide1(MetaMorphPeptide peptide1) {
+	public void setPeptide1(ByonicPeptide peptide1) {
 		this.peptide1 = peptide1;
 	}
 	/**
 	 * @return the peptide2
 	 */
-	public MetaMorphPeptide getPeptide2() {
+	public ByonicPeptide getPeptide2() {
 		return peptide2;
 	}
 	/**
 	 * @param peptide2 the peptide2 to set
 	 */
-	public void setPeptide2(MetaMorphPeptide peptide2) {
+	public void setPeptide2(ByonicPeptide peptide2) {
 		this.peptide2 = peptide2;
 	}
 	/**
@@ -82,8 +82,8 @@ public class MetaMorphReportedPeptideBuilder {
 	}
 	
 	private int type;
-	private MetaMorphPeptide peptide1;
-	private MetaMorphPeptide peptide2;
+	private ByonicPeptide peptide1;
+	private ByonicPeptide peptide2;
 	private int position1;
 	private int position2;
 	

@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
-import org.yeastrc.proxl.xml.byonic.objects.MetaMorphReportedPeptide;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicReportedPeptide;
 import org.yeastrc.proxl.xml.byonic.utils.*;
 import org.yeastrc.proteomics.fasta.*;
 import org.yeastrc.proxl_import.api.xml_dto.MatchedProteins;
@@ -58,7 +58,7 @@ public class MatchedProteinsBuilder {
 	 * @param reportedPeptides
 	 * @throws Exception
 	 */
-	public void buildMatchedProteins( ProxlInput proxlInputRoot, File fastaFile, Collection<MetaMorphReportedPeptide> reportedPeptides ) throws Exception {
+	public void buildMatchedProteins( ProxlInput proxlInputRoot, File fastaFile, Collection<ByonicReportedPeptide> reportedPeptides ) throws Exception {
 		
 
 		// the proteins we've found
@@ -115,7 +115,7 @@ public class MatchedProteinsBuilder {
 	 * @return
 	 * @throws Exception
 	 */
-	private Map<String, Collection<FastaProteinAnnotation>> getProteins( Collection<MetaMorphReportedPeptide> percolatorPeptides, File fastaFile ) throws Exception {
+	private Map<String, Collection<FastaProteinAnnotation>> getProteins(Collection<ByonicReportedPeptide> percolatorPeptides, File fastaFile ) throws Exception {
 		
 		// get a unique set of naked peptide sequence
 		Collection<String> nakedPeptideSequences = getNakedPeptideSequences( percolatorPeptides );
@@ -160,11 +160,11 @@ public class MatchedProteinsBuilder {
 	
 	
 
-	private Collection<String> getNakedPeptideSequences( Collection< MetaMorphReportedPeptide > percolatorPeptides ) {
+	private Collection<String> getNakedPeptideSequences( Collection<ByonicReportedPeptide> percolatorPeptides ) {
 		
 		Collection<String> nakedSequences = new HashSet<>();
 		
-		for( MetaMorphReportedPeptide percolatorPeptide : percolatorPeptides ) {
+		for( ByonicReportedPeptide percolatorPeptide : percolatorPeptides ) {
 			
 			nakedSequences.add( percolatorPeptide.getPeptide1().getSequence() );
 			
