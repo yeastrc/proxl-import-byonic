@@ -1,7 +1,5 @@
 package org.yeastrc.proxl.xml.byonic.objects;
 
-import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
-
 import java.math.BigDecimal;
 
 public class ByonicPSM {

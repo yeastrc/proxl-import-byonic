@@ -18,11 +18,11 @@
 
 package org.yeastrc.proxl.xml.byonic.annotations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
 import org.yeastrc.proxl_import.api.xml_dto.SearchAnnotation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The default order by which to sort the results.

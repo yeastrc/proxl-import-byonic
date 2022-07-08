@@ -18,13 +18,11 @@
 
 package org.yeastrc.proxl.xml.byonic.annotations;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
 import org.yeastrc.proxl_import.api.xml_dto.FilterDirectionType;
 import org.yeastrc.proxl_import.api.xml_dto.FilterablePsmAnnotationType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PSMAnnotationTypes {
 

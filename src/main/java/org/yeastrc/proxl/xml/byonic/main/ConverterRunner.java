@@ -4,7 +4,6 @@ import org.yeastrc.proxl.xml.byonic.builder.XMLBuilder;
 import org.yeastrc.proxl.xml.byonic.objects.ByonicResults;
 import org.yeastrc.proxl.xml.byonic.reader.ByonicResultsParser;
 
-import javax.xml.bind.JAXBException;
 import java.io.File;
 
 public class ConverterRunner {

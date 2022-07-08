@@ -18,16 +18,6 @@
 
 package org.yeastrc.proxl.xml.byonic.builder;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.yeastrc.proxl.xml.byonic.annotations.PSMAnnotationTypes;
 import org.yeastrc.proxl.xml.byonic.annotations.PSMDefaultVisibleAnnotationTypes;
 import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
@@ -41,6 +31,14 @@ import org.yeastrc.proxl.xml.byonic.utils.ModUtils;
 import org.yeastrc.proxl_import.api.xml_dto.*;
 import org.yeastrc.proxl_import.api.xml_dto.SearchProgram.PsmAnnotationTypes;
 import org.yeastrc.proxl_import.create_import_file_from_java_objects.main.CreateImportFileFromJavaObjectsMain;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class XMLBuilder {
 

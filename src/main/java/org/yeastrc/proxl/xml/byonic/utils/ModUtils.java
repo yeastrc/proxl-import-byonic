@@ -18,12 +18,12 @@
 
 package org.yeastrc.proxl.xml.byonic.utils;
 
+import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicPeptide;
+
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
-
-import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
-import org.yeastrc.proxl.xml.byonic.objects.ByonicPeptide;
 
 public class ModUtils {
 

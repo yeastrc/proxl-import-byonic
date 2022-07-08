@@ -18,13 +18,12 @@
 
 package org.yeastrc.proxl.xml.byonic.main;
 
+import org.yeastrc.proxl.xml.byonic.constants.Constants;
+import picocli.CommandLine;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-
-import org.yeastrc.proxl.xml.byonic.constants.Constants;
-
-import picocli.CommandLine;
 
 @CommandLine.Command(name = "java -jar " + Constants.CONVERSION_PROGRAM_NAME,
 		mixinStandardHelpOptions = true,

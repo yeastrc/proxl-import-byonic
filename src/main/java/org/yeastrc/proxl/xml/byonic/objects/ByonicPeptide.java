@@ -18,17 +18,12 @@
 
 package org.yeastrc.proxl.xml.byonic.objects;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import org.apache.commons.lang3.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class ByonicPeptide {
 
