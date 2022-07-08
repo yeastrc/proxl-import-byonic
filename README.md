@@ -21,7 +21,7 @@ the 2nd cross-link in peptide two is marked as having a modification of mass 0.
 
 How To Run
 -------------
-1. Download the `byonic2ProxlXML.jar` from the [latest release](https://github.com/yeastrc/proxl-import-metamorpheus/releases).
+1. Download the `byonic2ProxlXML.jar` from the [latest release](https://github.com/yeastrc/proxl-import-byonic/releases).
 2. Run the program ``java -jar byonic2ProxlXML.jar`` with no arguments to see the possible parameters.
 
 For more information on importing data into Proxl, please see the [Proxl Import Documentation](http://proxl-web-app.readthedocs.io/en/latest/using/upload_data.html).
