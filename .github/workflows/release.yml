@@ -11,7 +11,7 @@ on:
       - 'v*'
 
 env:
-  EXECUTABLE_JAR: "byonic2LimelightXML.jar"
+  EXECUTABLE_JAR: "byonic2ProxlXML.jar"
 
 jobs:
   release:

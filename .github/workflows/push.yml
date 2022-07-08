@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env:
-  EXECUTABLE_JAR: "byonic2LimelightXML.jar"
+  EXECUTABLE_JAR: "byonic2ProxlXML.jar"
 
 jobs:
   build:
