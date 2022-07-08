@@ -17,7 +17,7 @@ Notes
 This type of link is not currently supported by proxl or proxl XML. In proxl XML this is represented as a single
 cross-link between the two peptides with a linker mass equal to `Disulfied x 2`'s delta mass. The site of
 the 2nd cross-link in peptide two is marked as having a modification of mass 0.
-4. Static mods are currently fully supported. If you have static mods in your search, please email us at mriffle .at. uw.edu.
+4. Static mods are not currently fully supported. If you have static mods in your search, please email us at mriffle .at. uw.edu.
 
 How To Run
 -------------
