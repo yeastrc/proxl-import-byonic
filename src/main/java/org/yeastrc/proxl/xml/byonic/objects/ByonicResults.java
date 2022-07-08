@@ -39,8 +39,17 @@ public class ByonicResults {
         this.fastaFile = fastaFile;
     }
 
+    public Collection<ByonicProtein> getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(Collection<ByonicProtein> proteins) {
+        this.proteins = proteins;
+    }
+
     private Map<ByonicReportedPeptide, Collection<ByonicPSM>> peptidePsmMap;
     private Collection<ByonicLinker> linkers;
+    private Collection<ByonicProtein> proteins;
     private String byonicVersion;
     private String fastaFile;
 

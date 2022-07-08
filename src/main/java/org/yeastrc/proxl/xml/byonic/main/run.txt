@@ -1,4 +1,4 @@
-MetaMorpheusXL to Proxl XML converter
+Byonic to Proxl XML converter
 Author: Michael Riffle <mriffle@uw.edu>
 See: {{URL}}
 Version: {{VERSION}}

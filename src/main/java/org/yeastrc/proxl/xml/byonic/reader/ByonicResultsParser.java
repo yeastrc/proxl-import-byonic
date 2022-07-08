@@ -35,7 +35,9 @@ public class ByonicResultsParser {
         String version = mzIdentML.getAnalysisSoftwareList().getAnalysisSoftware().get(0).getVersion();
         System.err.println("\tByonic version: " + version);
 
+        System.err.print("\tReading proteins... ");
         Map<Integer, ByonicProtein> proteinIndexMap = getProteinIndexMap(mzIdentML);
+        System.err.println("Found " + proteinIndexMap.size() + " proteins.");
 
         // the cross-linkers found while parsing peptides, indexed by peptide id in the mzID file
         Map<String, ByonicLinker> peptideLinkerMap = new HashMap<>();
@@ -44,13 +46,17 @@ public class ByonicResultsParser {
         Map<String, BigDecimal> peptideLinkerMassMap = new HashMap<>();
 
         // all reported peptides indexed by internal peptide id
+        System.err.print("\tReading peptides... ");
         Map<String, ByonicReportedPeptide> peptideIdMap = getPeptides(mzIdentML, peptideLinkerMap, peptideLinkerMassMap);
+        System.err.println("Found " + peptideIdMap.size() + " peptides.");
 
         // all peptideevidenceref entries, indexed by pepvideevidence id
         Map<String, PeptideEvidence> peptideEvidenceMap = getPeptideEvidence(mzIdentML);
 
         // all psms indexed by ByonicReportedPeptide
+        System.err.print("\tReading PSMs... ");
         Map<ByonicReportedPeptide, Collection<ByonicPSM>> psmPeptideMap = getPsms(mzIdentML, peptideIdMap, peptideLinkerMap, peptideLinkerMassMap, peptideEvidenceMap);
+        System.err.println("Done.");
 
         // all distinct linkers found
         Collection<ByonicLinker> linkers = new HashSet<>();
@@ -59,6 +65,7 @@ public class ByonicResultsParser {
         byonicResults.setByonicVersion(version);
         byonicResults.setFastaFile(getFastaFile(mzIdentML));
         byonicResults.setLinkers(linkers);
+        byonicResults.setProteins(proteinIndexMap.values());
         byonicResults.setPeptidePsmMap(psmPeptideMap);
 
         return byonicResults;
@@ -248,7 +255,8 @@ public class ByonicResultsParser {
     }
 
     private static int getPeptide2Position(PeptideType peptideType) throws Exception {
-        Pattern p = Pattern.compile("^\\.+ Position:(\\d+) LinkPosition:(\\d+) .+$");
+        Pattern p = Pattern.compile("^.+ Position:(\\d+) LinkPosition:(\\d+) .+$");
+        Pattern p2 = Pattern.compile("^.+ Position:(\\d+) LinkPosition:(\\d+),(\\d+) .+$");
 
         for(ModificationType modificationType : peptideType.getModification()) {
             for(CVParamType cvParamType : modificationType.getCvParam()) {
@@ -256,14 +264,23 @@ public class ByonicResultsParser {
                 if(value.startsWith("{xlink-inter}")) {
                     Matcher m = p.matcher(value);
 
-                    if(!m.matches()) {
-                        throw new Exception("Could not parse reported cross-linked peptide: " + value);
+                    if(m.matches()) {
+                        int peptidePosition = Integer.parseInt(m.group(1));
+                        int proteinLinkPosition = Integer.parseInt(m.group(2));
+
+                        return proteinLinkPosition - peptidePosition + 1;
                     }
 
-                    int peptidePosition = Integer.parseInt(m.group(1));
-                    int proteinLinkPosition = Integer.parseInt(m.group(2));
+                    m = p2.matcher(value);
 
-                    return proteinLinkPosition - peptidePosition + 1;
+                    if(m.matches()) {
+                        int peptidePosition = Integer.parseInt(m.group(1));
+                        int proteinLinkPosition = Integer.parseInt(m.group(2));
+
+                        return proteinLinkPosition - peptidePosition + 1;
+                    }
+
+                    throw new Exception("Could not find linked position in: " + value);
                 }
             }
         }
@@ -272,7 +289,7 @@ public class ByonicResultsParser {
     }
 
     private static BigDecimal getLinkDeltaMass(PeptideType peptideType) throws Exception {
-        Pattern p = Pattern.compile("^.+ LinkDeltaMass:(.+) .+$");
+        Pattern p = Pattern.compile("^.+ LinkDeltaMass:([+-]?([\\d]+\\.?[\\d]*|\\.[\\d]+)) .+$");
 
         for(ModificationType modificationType : peptideType.getModification()) {
             for(CVParamType cvParamType : modificationType.getCvParam()) {
@@ -293,7 +310,7 @@ public class ByonicResultsParser {
     }
 
     private static String getPeptide2Sequence(PeptideType peptideType) throws Exception {
-        Pattern p = Pattern.compile("^\\.+ Seq:.\\.(.+)\\.. .+$");
+        Pattern p = Pattern.compile("^.+ Seq:[\\w\\-]\\.(\\w+)\\.[\\w\\-] .+$");
 
         for(ModificationType modificationType : peptideType.getModification()) {
             for(CVParamType cvParamType : modificationType.getCvParam()) {

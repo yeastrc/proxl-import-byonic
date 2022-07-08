@@ -19,22 +19,14 @@
 
 package org.yeastrc.proxl.xml.byonic.builder;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
-import org.yeastrc.proxl.xml.byonic.constants.SearchConstants;
-import org.yeastrc.proxl.xml.byonic.objects.ByonicReportedPeptide;
-import org.yeastrc.proxl.xml.byonic.utils.*;
-import org.yeastrc.proteomics.fasta.*;
+import org.yeastrc.proxl.xml.byonic.objects.ByonicProtein;
 import org.yeastrc.proxl_import.api.xml_dto.MatchedProteins;
 import org.yeastrc.proxl_import.api.xml_dto.Protein;
 import org.yeastrc.proxl_import.api.xml_dto.ProteinAnnotation;
 import org.yeastrc.proxl_import.api.xml_dto.ProxlInput;
 
+import java.util.Collection;
 
 /**
  * Build the MatchedProteins section of the emozi XML docs. This is done by finding all proteins in the FASTA
@@ -49,220 +41,25 @@ public class MatchedProteinsBuilder {
 
 	public static MatchedProteinsBuilder getInstance() { return new MatchedProteinsBuilder(); }
 
-	/**
-	 * Add all target proteins from the FASTA file that contain any of the peptides found in the experiment
-	 * to the emozi xml document in the matched proteins section.
-	 *
-	 * @param proxlInputRoot
-	 * @param fastaFile
-	 * @param reportedPeptides
-	 * @throws Exception
-	 */
-	public void buildMatchedProteins( ProxlInput proxlInputRoot, File fastaFile, Collection<ByonicReportedPeptide> reportedPeptides ) throws Exception {
-		
+	public void buildMatchedProteins(ProxlInput proxlInputRoot, Collection<ByonicProtein> proteins) throws Exception {
 
-		// the proteins we've found
-		Map<String, Collection<FastaProteinAnnotation>> proteins = getProteins( reportedPeptides, fastaFile );
-		
-		// create the XML and add to root element
-		buildAndAddMatchedProteinsToXML( proxlInputRoot, proteins );
-		
-	}
-	
-	/**
-	 * Do the work of building the matched peptides element and adding to emozi xml root
-	 * 
-	 * @param proxlInputRoot
-	 * @param proteins
-	 * @throws Exception
-	 */
-	private void buildAndAddMatchedProteinsToXML( ProxlInput proxlInputRoot, Map<String, Collection<FastaProteinAnnotation>> proteins ) throws Exception {
-		
+		System.err.print( " Matching peptides to proteins..." );
+
 		MatchedProteins xmlMatchedProteins = new MatchedProteins();
 		proxlInputRoot.setMatchedProteins( xmlMatchedProteins );
-		
-		for( String sequence : proteins.keySet() ) {
-			
-			if( proteins.get( sequence ).isEmpty() ) continue;
-			
+
+		for( ByonicProtein protein :  proteins) {
+
 			Protein xmlProtein = new Protein();
-        	xmlMatchedProteins.getProtein().add( xmlProtein );
-        	
-        	xmlProtein.setSequence( sequence );
-        	        	
-        	for( FastaProteinAnnotation anno : proteins.get( sequence ) ) {
-        		ProteinAnnotation xmlMatchedProteinLabel = new ProteinAnnotation();
-        		xmlProtein.getProteinAnnotation().add( xmlMatchedProteinLabel );
-        		
-        		xmlMatchedProteinLabel.setName( anno.getName() );
-        		
-        		if( anno.getDescription() != null )
-        			xmlMatchedProteinLabel.setDescription( anno.getDescription() );
-        			
-        		if( anno.getTaxonomId() != null )
-        			xmlMatchedProteinLabel.setNcbiTaxonomyId( new BigInteger( anno.getTaxonomId().toString() ) );
-        	}
-		}
-	}
+			xmlMatchedProteins.getProtein().add( xmlProtein );
 
+			xmlProtein.setSequence( protein.getSequence() );
 
-	/**
-	 * Get a map of the distinct target protein sequences mapped to a collection of target annotations for that sequence
-	 * from the given fasta file, where the sequence contains any of the supplied peptide sequences
-	 *
-	 * @param percolatorPeptides
-	 * @param fastaFile
-	 * @return
-	 * @throws Exception
-	 */
-	private Map<String, Collection<FastaProteinAnnotation>> getProteins(Collection<ByonicReportedPeptide> percolatorPeptides, File fastaFile ) throws Exception {
-		
-		// get a unique set of naked peptide sequence
-		Collection<String> nakedPeptideSequences = getNakedPeptideSequences( percolatorPeptides );
-		
-		Map<String, Collection<FastaProteinAnnotation>> proteinAnnotations = new HashMap<>();
-
-		try ( FASTAFileParser parser = FASTAFileParserFactory.getInstance().getFASTAFileParser(  fastaFile ) ) {
-
-			for( FASTAEntry entry = parser.getNextEntry(); entry != null; entry = parser.getNextEntry() ) {
-
-				for( String nakedSequence : nakedPeptideSequences ) {
-					
-					if( ProteinInferenceUtils.proteinContainsReportedPeptide( entry.getSequence(), nakedSequence ) ) {
-						
-						// this protein has a matching peptide
-						
-						for( FASTAHeader header : entry.getHeaders() ) {
-							
-							if( !proteinAnnotations.containsKey( entry.getSequence() ) )
-								proteinAnnotations.put( entry.getSequence(), new HashSet<FastaProteinAnnotation>() );
-							
-							FastaProteinAnnotation anno = new FastaProteinAnnotation();
-							anno.setName( header.getName() );
-							anno.setDescription( header.getDescription() );
-		            		
-							proteinAnnotations.get( entry.getSequence() ).add( anno );
-
-						}//end iterating over fasta headers
-						
-						break;// no need to check more peptides for this protein, we found one						
-
-					} // end if statement for protein containing peptide
-
-				} // end iterating over peptide sequences
-				
-			}// end iterating over fasta entries
+			ProteinAnnotation xmlProteinAnnotation = new ProteinAnnotation();
+			xmlProteinAnnotation.setName(protein.getAccession());
+			xmlProtein.getProteinAnnotation().add(xmlProteinAnnotation);
 
 		}
-		
-		return proteinAnnotations;
-	}
-	
-	
-
-	private Collection<String> getNakedPeptideSequences( Collection<ByonicReportedPeptide> percolatorPeptides ) {
-		
-		Collection<String> nakedSequences = new HashSet<>();
-		
-		for( ByonicReportedPeptide percolatorPeptide : percolatorPeptides ) {
-			
-			nakedSequences.add( percolatorPeptide.getPeptide1().getSequence() );
-			
-			if( percolatorPeptide.getType() == SearchConstants.LINK_TYPE_CROSSLINK )
-				nakedSequences.add( percolatorPeptide.getPeptide2().getSequence() );
-		}
-		
-		
-		return nakedSequences;
-	}
-
-	
-	
-	/**
-	 * An annotation for a protein in a Fasta file
-	 * 
-	 * @author mriffle
-	 *
-	 */
-	private class FastaProteinAnnotation {
-		
-		public int hashCode() {
-			
-			String hashString = this.getName();
-			
-			if( this.getDescription() != null )
-				hashString += this.getDescription();
-			
-			if( this.getTaxonomId() != null )
-				hashString += this.getTaxonomId().intValue();
-			
-			return hashString.hashCode();
-		}
-		
-		/**
-		 * Return true if name, description and taxonomy are all the same, false otherwise
-		 */
-		public boolean equals( Object o ) {
-			try {
-				
-				FastaProteinAnnotation otherAnno = (FastaProteinAnnotation)o;
-				
-				if( !this.getName().equals( otherAnno.getName() ) )
-					return false;
-				
-				
-				if( this.getDescription() == null ) {
-					if( otherAnno.getDescription() != null )
-						return false;
-				} else {
-					if( otherAnno.getDescription() == null )
-						return false;
-				}
-				
-				if( !this.getDescription().equals( otherAnno.getDescription() ) )
-					return false;
-				
-				
-				if( this.getTaxonomId() == null ) {
-					if( otherAnno.getTaxonomId() != null )
-						return false;
-				} else {
-					if( otherAnno.getTaxonomId() == null )
-						return false;
-				}
-				
-				if( !this.getTaxonomId().equals( otherAnno.getTaxonomId() ) )
-					return false;
-				
-				
-				return true;
-				
-			} catch( Exception e ) {
-				return false;
-			}
-		}
-
-		
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		public Integer getTaxonomId() {
-			return taxonomId;
-		}
-
-		private String name;
-		private String description;
-		private Integer taxonomId;
-
 	}
 	
 }

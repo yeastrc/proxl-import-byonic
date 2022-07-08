@@ -411,8 +411,7 @@ public class XMLBuilder {
 		// add in the matched proteins section
 		MatchedProteinsBuilder.getInstance().buildMatchedProteins(
 				                                                   proxlInputRoot,
-				                                                   analysis.getFastaFile(),
-				                                                   resultsByReportedPeptide.keySet()
+				                                                   results.getProteins()
 				                                                  );		
 		
 		

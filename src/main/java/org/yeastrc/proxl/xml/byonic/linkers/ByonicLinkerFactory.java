@@ -52,6 +52,27 @@ public class ByonicLinkerFactory {
 		{
 			ByonicLinker linker = new ByonicLinker();
 
+			linker.setByonicName( "Disulfide x 2" );
+			linker.setProxlName( "Disulfide x 2" );
+			linker.setCleavable( false );
+
+			linker.getCrosslinkMasses().add( -4.031300 );
+			linker.setFormula("-4H");
+
+			List<ByonicLinkerEnd> linkerEnds = new ArrayList<>(2);
+			Collection<String> linkableResidues = new HashSet<>();
+			linkableResidues.add( "C" );
+
+			linkerEnds.add( new ByonicLinkerEnd( linkableResidues, false, false ) );
+			linkerEnds.add( new ByonicLinkerEnd( linkableResidues, false, false ) );
+			linker.setLinkerEnds( linkerEnds );
+
+			_LINKER_MAP.put( "Disulfide x 2", linker );
+		}
+
+		{
+			ByonicLinker linker = new ByonicLinker();
+
 			linker.setByonicName( "Trisulfide" );
 			linker.setProxlName( "Trisulfide" );
 			linker.setCleavable( false );

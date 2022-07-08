@@ -45,12 +45,12 @@ processResources {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'org.yeastrc.proxl.xml.metamorph.main.MainProgram'
+        attributes 'Main-Class': 'org.yeastrc.proxl.xml.byonic.main.MainProgram'
     }
 }
 
 shadowJar {
-    baseName = 'metaMorph2ProxlXML'
+    baseName = 'byonic2ProxlXML'
     classifier = null
     version = null
 }
