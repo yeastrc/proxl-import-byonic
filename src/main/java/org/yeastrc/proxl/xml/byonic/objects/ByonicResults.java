@@ -31,8 +31,17 @@ public class ByonicResults {
         this.byonicVersion = byonicVersion;
     }
 
+    public String getFastaFile() {
+        return fastaFile;
+    }
+
+    public void setFastaFile(String fastaFile) {
+        this.fastaFile = fastaFile;
+    }
+
     private Map<ByonicReportedPeptide, Collection<ByonicPSM>> peptidePsmMap;
     private Collection<ByonicLinker> linkers;
     private String byonicVersion;
+    private String fastaFile;
 
 }

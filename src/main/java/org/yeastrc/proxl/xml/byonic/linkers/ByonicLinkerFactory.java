@@ -31,7 +31,7 @@ public class ByonicLinkerFactory {
 		{
 			ByonicLinker linker = new ByonicLinker();
 
-			linker.setMetaMorphName( "Disulfide" );
+			linker.setByonicName( "Disulfide" );
 			linker.setProxlName( "Disulfide" );
 			linker.setCleavable( false );
 
@@ -52,7 +52,7 @@ public class ByonicLinkerFactory {
 		{
 			ByonicLinker linker = new ByonicLinker();
 
-			linker.setMetaMorphName( "Trisulfide" );
+			linker.setByonicName( "Trisulfide" );
 			linker.setProxlName( "Trisulfide" );
 			linker.setCleavable( false );
 

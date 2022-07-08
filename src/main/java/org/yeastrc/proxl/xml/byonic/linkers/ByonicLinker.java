@@ -21,8 +21,22 @@ package org.yeastrc.proxl.xml.byonic.linkers;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class ByonicLinker {
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ByonicLinker that = (ByonicLinker) o;
+		return byonicName.equals(that.byonicName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(byonicName);
+	}
 
 	/**
 	 * @return the crosslinkMasses
@@ -51,14 +65,14 @@ public class ByonicLinker {
 	/**
 	 * @return the metaMorphName
 	 */
-	public String getMetaMorphName() {
-		return metaMorphName;
+	public String getByonicName() {
+		return byonicName;
 	}
 	/**
-	 * @param metaMorphName the metaMorphName to set
+	 * @param byonicName the metaMorphName to set
 	 */
-	public void setMetaMorphName(String metaMorphName) {
-		this.metaMorphName = metaMorphName;
+	public void setByonicName(String byonicName) {
+		this.byonicName = byonicName;
 	}
 	/**
 	 * @return the proxlName
@@ -103,7 +117,7 @@ public class ByonicLinker {
 				"crosslinkMasses=" + crosslinkMasses +
 				", cleavedCrosslinkMasses=" + cleavedCrosslinkMasses +
 				", monolinkMasses=" + monolinkMasses +
-				", metaMorphName='" + metaMorphName + '\'' +
+				", byonicName='" + byonicName + '\'' +
 				", proxlName='" + proxlName + '\'' +
 				", isCleavable=" + isCleavable +
 				", linkerEnds=" + linkerEnds +
@@ -122,7 +136,7 @@ public class ByonicLinker {
 	private Collection<Double> crosslinkMasses = new HashSet<>();
 	private Collection<Double> cleavedCrosslinkMasses = new HashSet<>();
 	private Collection<Double> monolinkMasses = new HashSet<>();
-	private String metaMorphName;
+	private String byonicName;
 	private String proxlName;
 	private boolean isCleavable;
 	private List<ByonicLinkerEnd> linkerEnds;

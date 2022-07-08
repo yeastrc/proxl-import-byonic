@@ -1,7 +1,5 @@
 package org.yeastrc.proxl.xml.byonic.objects;
 
-import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
-
 import java.math.BigDecimal;
 
 public class ByonicPSMBuilder {
@@ -9,7 +7,7 @@ public class ByonicPSMBuilder {
     private BigDecimal deltaScore;
     private BigDecimal deltaModScore;
     private BigDecimal absLogProb2D;
-    private ByonicLinker linker;
+    private BigDecimal linkerMass;
     private Integer scanNumber;
     private BigDecimal obsMz;
     private int charge;
@@ -34,8 +32,8 @@ public class ByonicPSMBuilder {
         return this;
     }
 
-    public ByonicPSMBuilder setLinker(ByonicLinker linker) {
-        this.linker = linker;
+    public ByonicPSMBuilder setLinkerMass(BigDecimal linkerMass) {
+        this.linkerMass = linkerMass;
         return this;
     }
 
@@ -55,6 +53,6 @@ public class ByonicPSMBuilder {
     }
 
     public ByonicPSM createByonicPSM() {
-        return new ByonicPSM(score, deltaScore, deltaModScore, absLogProb2D, linker, scanNumber, obsMz, charge);
+        return new ByonicPSM(score, deltaScore, deltaModScore, absLogProb2D, linkerMass, scanNumber, obsMz, charge);
     }
 }

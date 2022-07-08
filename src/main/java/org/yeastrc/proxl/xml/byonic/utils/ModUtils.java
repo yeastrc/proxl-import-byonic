@@ -19,6 +19,7 @@
 package org.yeastrc.proxl.xml.byonic.utils;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Map;
 
 import org.yeastrc.proxl.xml.byonic.linkers.ByonicLinker;
@@ -68,21 +69,23 @@ public class ModUtils {
 	}
 	
 	
-	public static boolean isDeadEndMod( Double modMass, ByonicLinker linker ) {
-		
-		// linker has no monolink masses defined, not a deadend
-		if( linker.getMonolinkMasses() == null || linker.getMonolinkMasses().size() < 1 )
-			return false;
-		
-		// test the mass of this mod against the known deadend masses. if it is a deadend, this is a deadend hit
-		for( double linkerMonolinkMass : linker.getMonolinkMasses() ) {
-			
-			// if they are within 0.01 of each other, consider them the same
-			if( Math.abs( linkerMonolinkMass - modMass ) < 0.01 )
-				return true;
-			
+	public static boolean isDeadEndMod( Double modMass, Collection<ByonicLinker> linkers ) {
+
+		for(ByonicLinker linker : linkers) {
+			// linker has no monolink masses defined, not a deadend
+			if (linker.getMonolinkMasses() == null || linker.getMonolinkMasses().size() < 1)
+				continue;
+
+			// test the mass of this mod against the known deadend masses. if it is a deadend, this is a deadend hit
+			for (double linkerMonolinkMass : linker.getMonolinkMasses()) {
+
+				// if they are within 0.01 of each other, consider them the same
+				if (Math.abs(linkerMonolinkMass - modMass) < 0.01)
+					return true;
+
+			}
 		}
-		
+
 		return false;
 	}
 	
