@@ -11,6 +11,7 @@ public class ByonicPSMBuilder {
     private Integer scanNumber;
     private BigDecimal obsMz;
     private int charge;
+    private String scanFilename;
 
     public ByonicPSMBuilder setScore(BigDecimal score) {
         this.score = score;
@@ -52,7 +53,12 @@ public class ByonicPSMBuilder {
         return this;
     }
 
+    public ByonicPSMBuilder setScanFilename(String scanFilename) {
+        this.scanFilename = scanFilename;
+        return this;
+    }
+
     public ByonicPSM createByonicPSM() {
-        return new ByonicPSM(score, deltaScore, deltaModScore, absLogProb2D, linkerMass, scanNumber, obsMz, charge);
+        return new ByonicPSM(score, deltaScore, deltaModScore, absLogProb2D, linkerMass, scanNumber, obsMz, charge, scanFilename);
     }
 }

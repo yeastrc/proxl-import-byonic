@@ -137,6 +137,7 @@ public class ByonicResultsParser {
                 }
 
                 ByonicPSMBuilder psmBuilder = new ByonicPSMBuilder();
+                psmBuilder.setScanFilename(getScanfileName(result));
                 psmBuilder.setScore(score);
                 psmBuilder.setCharge(charge);
                 psmBuilder.setAbsLogProb2D(absLogProb2D);
@@ -252,6 +253,17 @@ public class ByonicResultsParser {
         }
 
         return peptideIdMap;
+    }
+
+    private static String getScanfileName(SpectrumIdentificationResultType spectrumIdentificationResultType) throws Exception {
+        Pattern p = Pattern.compile("^(\\w+)\\.\\d+\\.\\d+\\.\\w+$");
+
+        Matcher m = p.matcher(spectrumIdentificationResultType.getName());
+        if(m.matches()) {
+            return m.group(1);
+        }
+
+        throw new Exception("Unable to get scan filename from: " + spectrumIdentificationResultType.getName());
     }
 
     private static int getPeptide2Position(PeptideType peptideType) throws Exception {

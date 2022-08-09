@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 
 public class ByonicPSM {
 
-
-    public ByonicPSM(BigDecimal score, BigDecimal deltaScore, BigDecimal deltaModScore, BigDecimal absLogProb2D, BigDecimal linkerMass, Integer scanNumber, BigDecimal obsMz, int charge) {
+    public ByonicPSM(BigDecimal score, BigDecimal deltaScore, BigDecimal deltaModScore, BigDecimal absLogProb2D, BigDecimal linkerMass, Integer scanNumber, BigDecimal obsMz, int charge, String scanFilename) {
         this.score = score;
         this.deltaScore = deltaScore;
         this.deltaModScore = deltaModScore;
@@ -14,6 +13,7 @@ public class ByonicPSM {
         this.scanNumber = scanNumber;
         this.obsMz = obsMz;
         this.charge = charge;
+        this.scanFilename = scanFilename;
     }
 
     public BigDecimal getLinkerMass() {
@@ -49,6 +49,10 @@ public class ByonicPSM {
         return charge;
     }
 
+    public String getScanFilename() {
+        return scanFilename;
+    }
+
     private BigDecimal score;
     private BigDecimal deltaScore;
     private BigDecimal deltaModScore;
@@ -57,5 +61,6 @@ public class ByonicPSM {
     private Integer scanNumber;
     private BigDecimal obsMz;
     private int charge;
+    private String scanFilename;
 
 }

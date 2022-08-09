@@ -355,6 +355,7 @@ public class XMLBuilder {
 				
 				xmlPsm.setScanNumber( new BigInteger( String.valueOf( byonicPsm.getScanNumber() ) ) );
 				xmlPsm.setPrecursorCharge( new BigInteger( String.valueOf( byonicPsm.getCharge() ) ) );
+				xmlPsm.setScanFileName(byonicPsm.getScanFilename());
 
 				if( rp.getType() == SearchConstants.LINK_TYPE_CROSSLINK || rp.getType() == SearchConstants.LINK_TYPE_LOOPLINK )
 					xmlPsm.setLinkerMass( byonicPsm.getLinkerMass() );
