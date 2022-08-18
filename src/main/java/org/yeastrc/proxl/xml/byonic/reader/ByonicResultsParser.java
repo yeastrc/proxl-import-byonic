@@ -53,9 +53,12 @@ public class ByonicResultsParser {
         // all peptideevidenceref entries, indexed by pepvideevidence id
         Map<String, PeptideEvidence> peptideEvidenceMap = getPeptideEvidence(mzIdentML);
 
+        // mapping of spectraData references to scan filenames
+        Map<String, String> spectraDataRefScanFilenameMap = getSpectraDataRefMap(mzIdentML);
+
         // all psms indexed by ByonicReportedPeptide
         System.err.print("\tReading PSMs... ");
-        Map<ByonicReportedPeptide, Collection<ByonicPSM>> psmPeptideMap = getPsms(mzIdentML, peptideIdMap, peptideLinkerMap, peptideLinkerMassMap, peptideEvidenceMap);
+        Map<ByonicReportedPeptide, Collection<ByonicPSM>> psmPeptideMap = getPsms(mzIdentML, peptideIdMap, peptideLinkerMap, peptideLinkerMassMap, spectraDataRefScanFilenameMap);
         System.err.println("Done.");
 
         // all distinct linkers found
@@ -95,7 +98,7 @@ public class ByonicResultsParser {
             Map<String,ByonicReportedPeptide> peptideIdMap,
             Map<String, ByonicLinker> peptideLinkerMap,
             Map<String, BigDecimal> peptideLinkerMassMap,
-            Map<String, PeptideEvidence> peptideEvidenceMap
+            Map<String, String> spectraDataRefScanFilenameMap
     ) throws Exception {
 
         Map<ByonicReportedPeptide, Collection<ByonicPSM>> psmPeptideMap = new HashMap<>();
@@ -137,7 +140,13 @@ public class ByonicResultsParser {
                 }
 
                 ByonicPSMBuilder psmBuilder = new ByonicPSMBuilder();
-                psmBuilder.setScanFilename(getScanfileName(result));
+
+                if(spectraDataRefScanFilenameMap.containsKey(result.getSpectraDataRef())) {
+                    psmBuilder.setScanFilename(spectraDataRefScanFilenameMap.get(result.getSpectraDataRef()));
+                } else {
+                    throw new Exception("Could not find scan filename for spectra data ref: " + result.getSpectraDataRef());
+                }
+
                 psmBuilder.setScore(score);
                 psmBuilder.setCharge(charge);
                 psmBuilder.setAbsLogProb2D(absLogProb2D);
@@ -169,6 +178,26 @@ public class ByonicResultsParser {
 
 
         return psmPeptideMap;
+    }
+
+    /**
+     * Get a mapping of spectraDataRef to scan filenames from the DataCollection/Inputs/SpectraData elements
+     *
+     * @param mzIdentML The parsed mzIdentML file (jaxb object)
+     * @return The mapping in the form of spectraDataRef => scan filename (no path)
+     */
+    private static Map<String, String> getSpectraDataRefMap(MzIdentMLType mzIdentML) throws Exception {
+        Map<String,String> spectraRefMap = new HashMap<>();
+
+        for(SpectraDataType spectraData : mzIdentML.getDataCollection().getInputs().getSpectraData()) {
+            spectraRefMap.put(spectraData.getId(), (new File(spectraData.getLocation())).getName());
+        }
+
+        if(spectraRefMap.size() < 1) {
+            throw new Exception("Could not find any SpectraData elements.");
+        }
+
+        return spectraRefMap;
     }
 
     private static Map<String, PeptideEvidence> getPeptideEvidence(MzIdentMLType mzIdentML) {
