@@ -106,7 +106,7 @@ public class ByonicResultsParser {
         for(SpectrumIdentificationResultType result : mzIdentML.getDataCollection().getAnalysisData().getSpectrumIdentificationList().get(0).getSpectrumIdentificationResult()) {
             String spectrumId = result.getSpectrumID();
             int scanNumber = Integer.parseInt(spectrumId.split("=")[1]);    // this is formatted as "index=96"
-            scanNumber += 1;    // scan number is almost always 1-indexed as opposed to 0-indexed
+            //scanNumber += 1;    // scan number is almost always 1-indexed as opposed to 0-indexed
 
             for(SpectrumIdentificationItemType byonicPsm : result.getSpectrumIdentificationItem()) {
 
