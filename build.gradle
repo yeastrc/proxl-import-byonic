@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 
     maven {
-        url 'https://raw.github.com/yeastrc/proxl-import-api/repository/'
+        url 'https://raw.githubusercontent.com/yeastrc/proxl-import-api/repository/'
     }
 }
 
